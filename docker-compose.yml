@@ -1,0 +1,60 @@
+version: "3.9"
+
+networks:
+  securex-net:
+    driver: bridge
+
+volumes:
+  models-data:
+
+services:
+
+  api:
+    container_name: securex-api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - securex-net
+    volumes:
+      - models-data:/models
+    environment:
+      - MODEL_DIR=/models
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  simulator:
+    container_name: securex-simulator
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    networks:
+      - securex-net
+    environment:
+      - API_URL=http://api:8000
+      - EMIT_INTERVAL_SEC=1.0
+      - ATTACK_PROBABILITY=0.06
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  dashboard:
+    container_name: securex-dashboard
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - securex-net
+    depends_on:
+      - api
+    restart: unless-stopped

@@ -1,0 +1,36 @@
+# ═══════════════════════════════════════════════════════
+#  PHANTOM SHIFT — Laptop Agent Quick Start
+#  Team SecureX | JSS Eclipse Hackathon 2025
+# ═══════════════════════════════════════════════════════
+#
+#  STEP 1 — Server laptop (Preksha's machine):
+#     docker compose up --build
+#     Find your IP: ipconfig (Windows) or ifconfig (Mac/Linux)
+#     Share that IP with teammates e.g. 192.168.1.100
+#
+#  STEP 2 — Every other laptop:
+#     pip install requests psutil
+#     python agent.py --server http://192.168.1.100:8000 --name Pragathi --type SCADA
+#
+#  STEP 3 — Trigger attacks manually (type in the agent terminal):
+#     port_scan        ← rapid port scanning
+#     data_exfil       ← big data to external IP
+#     lateral_move     ← SMB spreading internally
+#     c2_beacon        ← beaconing to C2 server
+#     firmware_tamper  ← changes device identity
+#     stop             ← end current attack
+#
+# ═══════════════════════════════════════════════════════
+#
+#  DEVICE ASSIGNMENTS (suggestion):
+#     Preksha  → Server + HMI_01      (--name Preksha --type HMI)
+#     Pragathi → SCADA_01             (--name Pragathi --type SCADA)
+#     Poojitha → SENSOR_01            (--name Poojitha --type SENSOR)
+#     Pranathi → GATEWAY_01           (--name Pranathi --type GATEWAY)
+#
+#  Add each other as peers for fleet graph edges:
+#     python agent.py --server http://SERVER_IP:8000 \
+#                     --name Pragathi --type SCADA \
+#                     --peers 192.168.1.101,192.168.1.102,192.168.1.103
+#
+# ═══════════════════════════════════════════════════════
