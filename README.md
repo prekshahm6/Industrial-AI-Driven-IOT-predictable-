@@ -14,12 +14,6 @@
 ```bash
 docker compose up --build
 ```
-
-| Service | URL |
-|---------|-----|
-| React Dashboard | http://localhost:3000 |
-| FastAPI + Docs  | http://localhost:8000/docs |
-
 ## Three Pillars
 
 1. **Predictive Threat Horizon** — LSTM predicts trust score 30 min ahead
